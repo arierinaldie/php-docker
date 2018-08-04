@@ -1,2 +1,2 @@
-## php7-fpm Docker
-Customized php7-fpm image for Docker Container.
+## php7-fpm docker image
+Customized php7-fpm image.
