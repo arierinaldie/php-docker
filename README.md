@@ -1,2 +1,2 @@
-# php-docker
-Customized php image for docker container
+# php Docker
+Customized php image for Docker container.
