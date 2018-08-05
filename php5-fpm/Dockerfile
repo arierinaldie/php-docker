@@ -5,9 +5,9 @@ FROM php:5.6-fpm
 
 # Install selected extensions and other stuff
 RUN apt-get update && apt-get install -y --no-install-recommends install \
-	&& pecl install memcached-2.2.0
-	&& pecl install redis-2.2.8
-	&& docker-php-ext-enable memcached redis
+	&& pecl install memcached-2.2.0 \
+	&& pecl install redis-2.2.8 \
+	&& docker-php-ext-enable memcached redis \
     && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 RUN cd ~
