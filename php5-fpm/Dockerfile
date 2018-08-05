@@ -27,10 +27,7 @@ RUN apt-get update \
     && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 # Installing java using Oracle JDK/JRE Installer
-RUN apt-get update \
-	&& apt-get -y --no-install-recommends install \
-		software-properties-common \
-		ssh-client
+RUN apt-get update && apt-get -y --no-install-recommends install software-properties-common
 
 RUN add-apt-repository "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main"
 RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 boolean true | /usr/bin/debconf-set-selections \
