@@ -7,8 +7,7 @@ FROM php:5.6-fpm
 RUN apt-get update && apt-get install -y --no-install-recommends install \
 	&& pecl install memcached-2.2.0 \
 	&& pecl install redis-2.2.8 \
-	&& docker-php-ext-enable memcached redis \
-    && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+	&& docker-php-ext-enable memcached redis xdebug
 
 RUN cd ~
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -17,7 +16,7 @@ RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 RUN php -r "unlink('composer-setup.php');"
 
 # Installing java using Default JDK/JRE
-RUN apt-get update && apt-get install -y --no-install-recommends install software-properties-common
-RUN apt-get update \
-	&& apt-get -y --no-install-recommends install default-jre \
-	&& apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/cache/*
+RUN apt-get update && apt-get -y --no-install-recommends install default-jre
+
+# CleanUp All
+RUN apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/cache/*
