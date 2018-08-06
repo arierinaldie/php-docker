@@ -11,7 +11,7 @@ RUN mkdir -p /usr/share/man/man1
 RUN apt-get -y --no-install-recommends install default-jdk
 
 # cleanup
-RUN apt-get clean; -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+RUN apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 # installing composer
 RUN cd ~
