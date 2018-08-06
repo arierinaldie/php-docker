@@ -12,8 +12,5 @@ RUN php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60e
 RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 RUN php -r "unlink('composer-setup.php');"
 
-# Installing java using Default JDK/JRE
-RUN apt-get update && apt-get -y --no-install-recommends install default-jre
-
 # CleanUp All
 RUN apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/cache/*
