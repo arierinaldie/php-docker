@@ -1,7 +1,7 @@
 # https://github.com/rinaldiarie/php-docker/tree/master/php5-fpm
 
 # Pull base image
-FROM php:5.6-fpm
+FROM php:5-fpm
 
 RUN apt-get update
 RUN apt-get -y --no-install-recommends install software-properties-common dirmngr ssh-client
