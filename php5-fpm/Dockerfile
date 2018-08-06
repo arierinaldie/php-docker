@@ -4,10 +4,7 @@
 FROM php:5.6-fpm
 
 # Install selected extensions and other stuff
-RUN apt-get update 
-RUN pecl install memcached-2.2.0
-RUN pecl install redis-2.2.8
-RUN docker-php-ext-enable memcached redis xdebug
+RUN apt-get update
 
 RUN cd ~
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
