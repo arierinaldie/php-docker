@@ -1,40 +1,21 @@
 # https://github.com/rinaldiarie/php-docker/tree/master/php5-fpm
 
 # Pull base image
-FROM phpdockerio/php56-fpm:latest
+FROM php:5.6-fpm
 
-# Install selected extensions and other stuff
-RUN apt-get update \
-    && apt-get -y --no-install-recommends install \
-        php5-memcached \
-        php5-mongo \
-        php5-mysql \
-        php5-pgsql \
-        php5-redis \
-        php5-sqlite \
-        php5-adodb \
-        php5-gd \
-        php5-imap \
-        php5-imagick \
-        php5-intl \
-        php5-memcache \
-        php5-msgpack \
-        php5-oauth \
-        php5-odbc \
-        php5-phpdbg \
-        php5-ssh2 \
-        php5-xdebug \
-    && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+RUN apt-get update
+RUN apt-get -y --no-install-recommends install software-properties-common dirmngr ssh-client
 
-# Installing java using Oracle JDK/JRE Installer
-RUN apt-get update && apt-get -y --no-install-recommends install software-properties-common
+# installing default JRE
+RUN mkdir -p /usr/share/man/man1
+RUN apt-get -y --no-install-recommends install default-jdk
 
-RUN add-apt-repository "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main"
-RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 boolean true | /usr/bin/debconf-set-selections \
-	&& apt-get update \
-	&& apt-get install -y oracle-java8-set-default \
-	&& rm -rf /var/lib/apt/lists/* \
-	&& rm -rf /var/cache/oracle-jdk8-installer
+# cleanup
+RUN apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
-# Define commonly used JAVA_HOME variable
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+# installing composer
+RUN cd ~
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+RUN php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+RUN php -r "unlink('composer-setup.php');"
