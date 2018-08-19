@@ -12,7 +12,10 @@ RUN apt-get -y --no-install-recommends install \
     dirmngr \
     ssh-client
 
-
+RUN useradd -ms /bin/bash webapp
+RUN usermod -aG root webapp
+RUN chown webapp:webapp /home/webapp
+RUN chmod a+rwx /home/webapp
 
 # installing default JRE
 RUN mkdir -p /usr/share/man/man1
