@@ -10,7 +10,9 @@ RUN apt-get update
 RUN apt-get -y --no-install-recommends install \
     software-properties-common \
     dirmngr \
-    ssh-client
+    ssh-client \
+    unzip \
+    git 
 
 RUN useradd -ms /bin/bash webapp
 RUN usermod -aG root webapp
@@ -42,7 +44,7 @@ RUN apt-get -y --no-install-recommends install \
 
 # installing default JRE
 RUN mkdir -p /usr/share/man/man1
-RUN apt-get -y --no-install-recommends install unzip git default-jre
+RUN apt-get -y --no-install-recommends install default-jre
 
 # cleanup
 RUN apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
