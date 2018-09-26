@@ -37,8 +37,7 @@ RUN apt-get -y --no-install-recommends install \
 
 # installing default JRE
 RUN mkdir -p /usr/share/man/man1
-RUN apt-get install unzip git
-RUN apt-get -y --no-install-recommends install default-jre
+RUN apt-get -y --no-install-recommends install unzip git default-jre
 
 # cleanup
 RUN apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
