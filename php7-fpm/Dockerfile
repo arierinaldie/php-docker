@@ -27,6 +27,9 @@ ENV PATH $PATH:$JAVA_HOME/bin
 
 # ------------------ oracle jdk ------------------
 
+## enabling ext bcmath
+RUN docker-php-ext-install bcmath
+
 RUN apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 RUN cd ~ \
