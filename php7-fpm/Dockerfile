@@ -11,7 +11,7 @@ RUN useradd -ms /bin/bash www \
 
 RUN apt-get update \
 && apt-get install --no-install-recommends --no-upgrade -y \
-git wget
+ssh-client git wget
 
 # ------------------ oracle jdk ------------------
 
@@ -47,6 +47,10 @@ RUN apt-get install --no-install-recommends --no-upgrade -y libmemcached-dev \
 RUN apt-get install --no-install-recommends --no-upgrade -y libpq-dev \
 && docker-php-ext-configure pgsql --with-pgsql=/usr/local/pgsql \
 && docker-php-ext-install pdo_pgsql pgsql
+
+## enabling ext apcu
+RUN pecl install apcu \
+&& docker-php-ext-enable apcu
 
 RUN apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
