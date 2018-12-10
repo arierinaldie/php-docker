@@ -11,7 +11,7 @@ RUN useradd -ms /bin/bash www \
 
 RUN apt-get update \
 && apt-get install --no-install-recommends --no-upgrade -y \
-ssh-client git wget
+ssh-client git wget libzip-dev libmemcached-dev libicu-dev libpq-dev
 
 # ------------------ oracle jdk ------------------
 
@@ -27,45 +27,14 @@ ENV PATH $PATH:$JAVA_HOME/bin
 
 # ------------------ oracle jdk ------------------
 
-## enabling ext bcmath
-RUN docker-php-ext-install bcmath
-
-## enabling ext mysqli
-RUN docker-php-ext-install pdo_mysql mysqli
-
-## enabling ext opcache
-RUN docker-php-ext-install opcache
-
-## enabling ext redis
-RUN pecl install redis \
-&& docker-php-ext-enable redis
-
-## enabling ext xdebug
-RUN pecl install xdebug \
-&& docker-php-ext-enable xdebug
-
-## enabling ext zip
-RUN apt-get install --no-install-recommends --no-upgrade -y libzip-dev \
+RUN docker-php-ext-configure pgsql --with-pgsql=/usr/local/pgsql \
+&& docker-php-ext-install bcmath pdo_mysql mysqli opcache intl pdo_pgsql pgsql \
+&& pecl install redis \
+&& pecl install xdebug \
 && pecl install zip \
-&& docker-php-ext-enable zip
-
-## enabling ext memcached
-RUN apt-get install --no-install-recommends --no-upgrade -y libmemcached-dev \
 && pecl install memcached \
-&& docker-php-ext-enable memcached
-
-## enabling ext intl
-RUN apt-get install --no-install-recommends --no-upgrade -y libicu-dev \
-&& docker-php-ext-install intl
-
-## enabling ext pgsql
-RUN apt-get install --no-install-recommends --no-upgrade -y libpq-dev \
-&& docker-php-ext-configure pgsql --with-pgsql=/usr/local/pgsql \
-&& docker-php-ext-install pdo_pgsql pgsql
-
-## enabling ext apcu
-RUN pecl install apcu \
-&& docker-php-ext-enable apcu
+&& pecl install apcu \
+&& docker-php-ext-enable redis xdebug zip memcached apcu
 
 RUN apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
