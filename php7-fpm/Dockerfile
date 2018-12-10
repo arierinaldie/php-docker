@@ -33,6 +33,17 @@ RUN docker-php-ext-install bcmath
 ## enabling ext mysqli
 RUN docker-php-ext-install pdo_mysql mysqli
 
+## enabling ext opcache
+RUN docker-php-ext-install opcache
+
+## enabling ext redis
+RUN pecl install redis \
+&& docker-php-ext-enable redis
+
+## enabling ext xdebug
+RUN pecl install xdebug \
+&& docker-php-ext-enable xdebug
+
 ## enabling ext zip
 RUN apt-get install --no-install-recommends --no-upgrade -y libzip-dev \
 && pecl install zip \
@@ -42,6 +53,11 @@ RUN apt-get install --no-install-recommends --no-upgrade -y libzip-dev \
 RUN apt-get install --no-install-recommends --no-upgrade -y libmemcached-dev \
 && pecl install memcached \
 && docker-php-ext-enable memcached
+
+## enabling ext intl
+RUN apt-get install --no-install-recommends --no-upgrade -y libicu-dev \
+&& pecl install intl \
+&& docker-php-ext-enable intl
 
 ## enabling ext pgsql
 RUN apt-get install --no-install-recommends --no-upgrade -y libpq-dev \
