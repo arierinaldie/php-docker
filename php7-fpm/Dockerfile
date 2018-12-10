@@ -15,7 +15,7 @@ git wget
 
 # ------------------ oracle jdk ------------------
 
-RUN wget -O /tmp/jdk.tar.gz --no-check-certificate -c --header "Cookie: oraclelicense=accept-securebackup-cookie" https://download.oracle.com/otn-pub/java/jdk/8u191-b12/2787e4a523244c269598db4e85c51e0c/jdk-8u191-linux-x64.tar.gz
+RUN wget -O /tmp/jdk.tar.gz -nv --no-check-certificate -c --header "Cookie: oraclelicense=accept-securebackup-cookie" https://download.oracle.com/otn-pub/java/jdk/8u191-b12/2787e4a523244c269598db4e85c51e0c/jdk-8u191-linux-x64.tar.gz
 
 RUN mkdir /opt/oracle \
 && tar zxvf /tmp/jdk.tar.gz -C /opt/oracle \
@@ -29,6 +29,24 @@ ENV PATH $PATH:$JAVA_HOME/bin
 
 ## enabling ext bcmath
 RUN docker-php-ext-install bcmath
+
+## enabling ext mysqli
+RUN docker-php-ext-install pdo_mysql mysqli
+
+## enabling ext zip
+RUN apt-get install --no-install-recommends --no-upgrade -y libzip-dev \
+&& pecl install zip \
+&& docker-php-ext-enable zip
+
+## enabling ext memcached
+RUN apt-get install --no-install-recommends --no-upgrade -y libmemcached-dev \
+&& pecl install memcached \
+&& docker-php-ext-enable memcached
+
+## enabling ext pgsql
+RUN apt-get install --no-install-recommends --no-upgrade -y libpq-dev \
+&& docker-php-ext-configure pgsql --with-pgsql=/usr/local/pgsql \
+&& docker-php-ext-install pdo_pgsql pgsql
 
 RUN apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
