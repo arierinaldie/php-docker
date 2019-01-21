@@ -9,23 +9,8 @@ RUN useradd -ms /bin/bash www \
 && chown www:www /home/www \
 && chmod a+rwx /home/www \
 && apt-get update \
-&& apt-get install --no-install-recommends --no-upgrade -y \
-ssh-client git wget libzip-dev libmemcached-dev libicu-dev libpq-dev
-
-# ------------------ oracle jdk ------------------
-
-RUN wget -O /tmp/jre.tar.gz https://javadl.oracle.com/webapps/download/AutoDL?BundleId=236878_42970487e3af4f5aa5bca3f542482c60 \
-&& mkdir /opt/oracle \
-&& tar zxvf /tmp/jre.tar.gz -C /opt/oracle \
-&& mv /opt/oracle/jre* /opt/oracle/jre \
-&& rm -rf /opt/oracle/jre1* /opt/oracle/jre/*.zip
-
-ENV JAVA_HOME /opt/oracle/jre
-ENV PATH $PATH:$JAVA_HOME/bin
-
-# ------------------ oracle jdk ------------------
-
-RUN docker-php-ext-configure pgsql --with-pgsql=/usr/local/pgsql \
+&& apt-get install --no-install-recommends --no-upgrade -y ssh-client git wget libzip-dev libmemcached-dev libicu-dev libpq-dev default-jre \
+&& docker-php-ext-configure pgsql --with-pgsql=/usr/local/pgsql \
 && docker-php-ext-install bcmath pdo_mysql mysqli opcache intl pdo_pgsql pgsql \
 && pecl install redis \
 && pecl install xdebug \
