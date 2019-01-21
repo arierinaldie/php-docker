@@ -14,9 +14,8 @@ ssh-client git wget libzip-dev libmemcached-dev libicu-dev libpq-dev
 
 # ------------------ oracle jdk ------------------
 
-RUN wget -O /tmp/jdk.tar.gz -nv --no-check-certificate -c --header "Cookie: oraclelicense=accept-securebackup-cookie" https://download.oracle.com/otn-pub/java/jdk/8u191-b12/2787e4a523244c269598db4e85c51e0c/jdk-8u191-linux-x64.tar.gz
-
-RUN mkdir /opt/oracle \
+RUN wget -O /tmp/jre.tar.gz https://javadl.oracle.com/webapps/download/AutoDL?BundleId=236878_42970487e3af4f5aa5bca3f542482c60 \
+&& mkdir /opt/oracle \
 && tar zxvf /tmp/jdk.tar.gz -C /opt/oracle \
 && mv /opt/oracle/jdk* /opt/oracle/jdk \
 && rm -rf /opt/oracle/jdk1* /opt/oracle/jdk/*.zip
