@@ -16,11 +16,11 @@ ssh-client git wget libzip-dev libmemcached-dev libicu-dev libpq-dev
 
 RUN wget -O /tmp/jre.tar.gz https://javadl.oracle.com/webapps/download/AutoDL?BundleId=236878_42970487e3af4f5aa5bca3f542482c60 \
 && mkdir /opt/oracle \
-&& tar zxvf /tmp/jdk.tar.gz -C /opt/oracle \
-&& mv /opt/oracle/jdk* /opt/oracle/jdk \
-&& rm -rf /opt/oracle/jdk1* /opt/oracle/jdk/*.zip
+&& tar zxvf /tmp/jre.tar.gz -C /opt/oracle \
+&& mv /opt/oracle/jre* /opt/oracle/jre \
+&& rm -rf /opt/oracle/jre1* /opt/oracle/jre/*.zip
 
-ENV JAVA_HOME /opt/oracle/jdk
+ENV JAVA_HOME /opt/oracle/jre
 ENV PATH $PATH:$JAVA_HOME/bin
 
 # ------------------ oracle jdk ------------------
