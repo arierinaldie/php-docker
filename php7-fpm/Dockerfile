@@ -8,8 +8,9 @@ RUN useradd -ms /bin/bash www \
 && usermod -aG root www \
 && chown www:www /home/www \
 && chmod a+rwx /home/www \
+&& mkdir -p /usr/share/man/man1 \
 && apt-get update \
-&& apt-get install --no-install-recommends --no-upgrade -y ssh-client git wget libzip-dev libmemcached-dev libicu-dev libpq-dev default-jre \
+&& apt-get install --no-install-recommends --no-upgrade -y ssh-client git wget libzip-dev libmemcached-dev libicu-dev libpq-dev zip unzip default-jre \
 && docker-php-ext-configure pgsql --with-pgsql=/usr/local/pgsql \
 && docker-php-ext-install bcmath pdo_mysql mysqli opcache intl pdo_pgsql pgsql \
 && pecl install redis \
