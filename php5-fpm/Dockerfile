@@ -1,23 +1,12 @@
-# https://github.com/rinaldiarie/php-docker/tree/master/php5-fpm
-
 # Pull base image
 FROM php:5-fpm
 
-RUN apt-get update
-RUN apt-get -y --no-install-recommends install \
-    software-properties-common \
-    dirmngr \
-    ssh-client
-
-RUN apt-get -y --no-install-recommends install \
-    libmemcached-dev \
-    zlib1g-dev \
-    libpq-dev \
-    libicu-dev \
-    libpng-dev \
-    libjpeg-dev \
-    libmagickwand-dev \
-    libfreetype6-dev \
+RUN useradd -ms /bin/bash www \
+&& usermod -aG root www \
+&& chown www:www /home/www \
+&& chmod a+rwx /home/www \
+&& mkdir -p /usr/share/man/man1 \
+&& apt-get update apt-get -y --no-install-recommends install software-properties-common dirmngr ssh-client unzip git default-jre libmemcached-dev zlib1g-dev libpq-dev libicu-dev libpng-dev libjpeg-dev libmagickwand-dev libfreetype6-dev \
 && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
 && docker-php-ext-install pdo pdo_pgsql pgsql pdo_mysql mysqli intl \
 && docker-php-ext-install -j$(nproc) iconv \
@@ -30,22 +19,10 @@ RUN apt-get -y --no-install-recommends install \
 && pecl install redis-2.2.8 \
 && pecl install imagick \
 && pecl install xdebug-2.5.5 \
-&& docker-php-ext-enable memcached redis imagick apcu xdebug
-
-# RUN docker-php-ext-enable memcached redis
-    # memcache
-    # mongo
-
-# installing default JRE
-RUN mkdir -p /usr/share/man/man1
-RUN apt-get -y --no-install-recommends install unzip git default-jre
-
-# cleanup
-RUN apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
-
-# installing composer
-RUN cd ~
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-RUN php -r "if (hash_file('SHA384', 'composer-setup.php') === '93b54496392c062774670ac18b134c3b3a95e5a5e5c8f1a9f115f203b75bf9a129d5daa8ba6a13e2cc8a1da0806388a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-RUN php -r "unlink('composer-setup.php');"
+&& docker-php-ext-enable memcached redis imagick apcu xdebug \
+&& apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* \
+&& cd ~ \
+&& php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+&& php -r "if (hash_file('sha384', 'composer-setup.php') === '48e3236262b34d30969dca3c37281b3b4bbe3221bda826ac6a9a62d6444cdb0dcd0615698a5cbe587c3f0fe57a54d8f5') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
+&& php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+&& php -r "unlink('composer-setup.php');" \
