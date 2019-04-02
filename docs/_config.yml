@@ -1,0 +1,4 @@
+theme: jekyll-theme-architect
+title: Php Docker
+description: Customized php image for docker container
+show_downloads: false
