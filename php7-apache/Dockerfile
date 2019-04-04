@@ -1,5 +1,5 @@
 # Pull base image
-FROM php:5-fpm
+FROM php:7-apache
 
 # Fix debconf warnings upon build
 ARG DEBIAN_FRONTEND=noninteractive
@@ -26,7 +26,7 @@ RUN useradd -ms /bin/bash www \
 && pecl install xdebug-2.5.5 \
 && docker-php-ext-enable memcached redis imagick apcu xdebug \
 && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* \
-&& cd ~ \
+&& a2enmod rewrite && service apache2 restart && cd ~ \
 && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 && php -r "if (hash_file('sha384', 'composer-setup.php') === '48e3236262b34d30969dca3c37281b3b4bbe3221bda826ac6a9a62d6444cdb0dcd0615698a5cbe587c3f0fe57a54d8f5') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
 && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
