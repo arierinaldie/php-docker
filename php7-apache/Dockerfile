@@ -1,6 +1,9 @@
 # Pull base image
 FROM php:7-apache
 
+# Fix debconf warnings upon build
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN useradd -ms /bin/bash www \
 && usermod -aG root www \
 && chown www:www /home/www \
