@@ -15,6 +15,7 @@ RUN useradd -ms /bin/bash www \
 && docker-php-ext-install bcmath pdo_mysql mysqli opcache intl pdo_pgsql pgsql \
 && pecl install redis \
 && pecl install xdebug \
+&& docker-php-ext-configure zip --with-libzip \
 && pecl install zip \
 && pecl install memcached \
 && pecl install apcu \
